@@ -9,24 +9,24 @@
 	<body>
 	     <form action="Register" method="post">
 	        <label>Username</label>:
-			<input type="text" name="username"></input>
+			<input type="text" name="username"></input><br>
 			<label>Email Id</label>:
-			<input type="email" name="email"></input>
+			<input type="email" name="email"></input><br>
 			<label>Password</label>:
 			<input type="password" name="password"></input>
 			<label>Confirm Password</label>:
-			<input type="password" name="confirmpassword"></input>
+			<input type="password" name="confirmpassword"></input><br>
 			<label>First Name</label>
-			<input type="text" name="fname"></input>
+			<input type="text" name="fname"></input><br>
 			<label>Last Name</label>
-			<input type="text" name="lname"></input>
+			<input type="text" name="lname"></input><br>
 			<label>Address</label>
-			<input type="text" name="adress"></input>
+			<input type="text" name="adress"></input><br>
 			<label>Pincode</label>
-			<input type="text" name="pincode"></input>
+			<input type="text" name="pincode"></input><br>
 			<label>Age</label>
-			<input type="text" name="age"></input>		
-			<input type="submit">Submit</input>
+			<input type="text" name="age"></input><br>		
+			<input type="submit"></input>
 	     </form>
 	</body>
 </html>

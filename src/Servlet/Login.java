@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import DAO.RegisterDAO;
+
 /**
  * Servlet implementation class Login
  */
@@ -35,7 +37,24 @@ public class Login extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		String message="";
+		String username=request.getParameter("username");
+		String email=username;
+		String password=request.getParameter("password");
+		boolean res=RegisterDAO.LoginAuth(username, email, password);
+		if(res)
+			{
+				message="Login successfull";
+				request.setAttribute("message", message);
+				request.getRequestDispatcher("index.jsp").include(request, response);
+			}
+		else
+			{
+				message="Invalid Username/Passord";
+				request.setAttribute("message", message);
+				request.getRequestDispatcher("index.jsp").include(request, response);
+			}
+		
 	}
 
 }

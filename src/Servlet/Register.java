@@ -57,17 +57,27 @@ public class Register extends HttpServlet {
 			String adress=request.getParameter("adress");
 			String pincode=request.getParameter("pincode");
 			int age=Integer.parseInt(request.getParameter("age"));
-			int row=RegisterDAO.InsertRegistrationDetails(id,username, email, password, confirmpassword, fname, lname, adress, pincode, age);
-			out.println(row);
-			if(row>0)
+			boolean res=RegisterDAO.ValidUser(username,email);
+			out.println(res);
+			if(res)
 			{
-				message="Signup successfull";
-				request.setAttribute("message", message);
-				request.getRequestDispatcher("index.jsp").include(request, response);
+				int row=RegisterDAO.InsertRegistrationDetails(id,username, email, password, confirmpassword, fname, lname, adress, pincode, age);
+				if(row>0)
+				{
+					message="Signup successfull";
+					request.setAttribute("message", message);
+					request.getRequestDispatcher("index.jsp").include(request, response);
+				}
+				else
+				{
+					message="Signup Failed..!!!";
+					request.setAttribute("message", message);
+					request.getRequestDispatcher("index.jsp").include(request, response);
+				}
 			}
 			else
 			{
-				message="Signup Failed..!!!";
+				message="User Already Exists..!!!";
 				request.setAttribute("message", message);
 				request.getRequestDispatcher("index.jsp").include(request, response);
 			}

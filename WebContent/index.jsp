@@ -7,7 +7,14 @@
 <title>Insert title here</title>
 </head>
  <body>
- 		<a href="login.jsp">Login </a><br><br>
+ <form action="Login" method="post">
+        <label>Username</label>:
+		<input type="text" name="username"></input>
+		<label>Password</label>:
+		<input type="password" name="password"></input>
+		<input type="submit">Login</input>
+</form>
 		<a href="Register.jsp">New User? Sign Up </a>    
+		<h1 style=color:green>${message}</h1>
  </body>
 </html>
