@@ -2,7 +2,6 @@ package Servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-
 import javax.servlet.Registration;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -52,6 +51,12 @@ public class Register extends HttpServlet {
 			String email=request.getParameter("email");
 			String password=request.getParameter("password");
 			String confirmpassword=request.getParameter("confirmpassword");
+			if(password !=confirmpassword)
+			{
+				message="Password/Confirm Password details not same";
+				request.setAttribute("message", message);
+				request.getRequestDispatcher("Register.jsp").forward(request, response);
+			}
 			String fname=request.getParameter("fname");
 			String lname=request.getParameter("lname");
 			String adress=request.getParameter("adress");
@@ -66,20 +71,20 @@ public class Register extends HttpServlet {
 				{
 					message="Signup successfull";
 					request.setAttribute("message", message);
-					request.getRequestDispatcher("index.jsp").include(request, response);
+					request.getRequestDispatcher("index.jsp").forward(request, response);
 				}
 				else
 				{
 					message="Signup Failed..!!!";
 					request.setAttribute("message", message);
-					request.getRequestDispatcher("index.jsp").include(request, response);
+					request.getRequestDispatcher("index.jsp").forward(request, response);
 				}
 			}
 			else
 			{
 				message="User Already Exists..!!!";
 				request.setAttribute("message", message);
-				request.getRequestDispatcher("index.jsp").include(request, response);
+				request.getRequestDispatcher("index.jsp").forward(request, response);
 			}
 		}
 		catch(Exception e)

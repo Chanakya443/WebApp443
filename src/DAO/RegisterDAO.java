@@ -1,17 +1,17 @@
 package DAO;
 import java.util.*;
+import java.io.PrintWriter;
 import java.sql.*;
 
 public class RegisterDAO {
 	static 
 	{
 		try{
-		Class.forName("com.mysql.jdbc.Driver");		
-		System.out.println("Driver loaded");
+		Class.forName("com.mysql.jdbc.Driver");	
 		}
 		catch(Exception ex)
 		{
-			System.out.println("Driver not loaded");
+			System.out.println(ex.getMessage());
 		}
 	}
 	public static int LastId()
@@ -31,47 +31,47 @@ public class RegisterDAO {
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 		return k;
 	}
 	public static boolean ValidUser(String username,String email)
 	{
-		boolean res=false;
-		String query="select * from Client_Registration_Details where username in (?) and email in (?)";
+		boolean res=true;
+		String query="select * from Client_Registration_Details where username in (?) or email in (?)";
 		try
 		{
 			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/webapp","root","root");
 			PreparedStatement cs=con.prepareStatement(query);
+			cs.setString(1, username);
+			cs.setString(2, email);
 			ResultSet rs=cs.executeQuery();
-			System.out.println(rs);
 			if(rs.next())
 			{
 				res=false;
 			}
-			else
-			{
-				res=true;
-			}
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 		return res;
 	}
-	public static boolean LoginAuth(String username,String email,String password)
-	{
+	public static boolean LoginAuth(String username,String password)
+	{	
 		boolean res=false;
-		String query="select * from Client_Registration_Details";
+		String query="select * from client_registration_details where username in (?) or email in (?) and password in (?)";
 		try
 		{
 			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/webapp","root","root");
 			PreparedStatement cs=con.prepareStatement(query);
+			cs.setString(1,username);
+			cs.setString(2,username);
+			cs.setString(3,password);
 			ResultSet rs=cs.executeQuery();
 			while(rs.next())
 			{
-				if((rs.getString(2).equals(username) || rs.getString(10).equals(email)) && (rs.getString(3).equals(password)))
+				if((rs.getString("username").equals(username) || rs.getString("email").equals(username)) && (rs.getString("Password").equals(password)))
 				{
 					res=true;
 					break;
@@ -80,7 +80,7 @@ public class RegisterDAO {
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 		return res;
 	}
@@ -106,7 +106,7 @@ public class RegisterDAO {
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 		return i;
 	}

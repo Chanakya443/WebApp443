@@ -39,20 +39,19 @@ public class Login extends HttpServlet {
 		// TODO Auto-generated method stub
 		String message="";
 		String username=request.getParameter("username");
-		String email=username;
 		String password=request.getParameter("password");
-		boolean res=RegisterDAO.LoginAuth(username, email, password);
+		boolean res=RegisterDAO.LoginAuth(username,password);
 		if(res)
 			{
 				message="Login successfull";
 				request.setAttribute("message", message);
-				request.getRequestDispatcher("index.jsp").include(request, response);
+				request.getRequestDispatcher("index.jsp").forward(request, response);
 			}
 		else
 			{
 				message="Invalid Username/Passord";
 				request.setAttribute("message", message);
-				request.getRequestDispatcher("index.jsp").include(request, response);
+				request.getRequestDispatcher("index.jsp").forward(request, response);
 			}
 		
 	}
