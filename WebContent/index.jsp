@@ -141,7 +141,7 @@
 	    </form>
 	    <br> <br>
 	     <a class="submitt" align="center" href="Register.jsp">New User? Sign Up</a>    
-		<h3 align="center" style=color:green>${message}</h3>
+		 <span>${message}</span>
   </div>		
  </body>
 </html>

@@ -56,7 +56,7 @@ public class Register extends HttpServlet {
 				request.getRequestDispatcher("Register.jsp").forward(request, response);
 			}
 			else
-		{
+		    {
 			String fname=request.getParameter("fname");
 			String lname=request.getParameter("lname");
 			String adress=request.getParameter("adress");
@@ -68,20 +68,20 @@ public class Register extends HttpServlet {
 				int row=RegisterDAO.InsertRegistrationDetails(id,username, email, password, confirmpassword, fname, lname, adress, pincode, age);
 				if(row>0)
 				{
-					message="Signup successfull";
+					message="<h3 align=\"center\" style=color:green>"+"Signup successfull"+"</h3>";
 					request.setAttribute("message", message);
 					request.getRequestDispatcher("index.jsp").forward(request, response);
 				}
 				else
 				{
-					message="Signup Failed..!!!";
+					message="<h3 align=\"center\" style=color:red>"+"Signup Failed..!!!"+"</h3>";
 					request.setAttribute("message", message);
 					request.getRequestDispatcher("index.jsp").forward(request, response);
 				}
 			}
 			else
 			{
-				message="User Already Exists..!!!";
+				message="<h3 align=\"center\" style=color:red>"+"User Already Exists..!!!"+"</h3>";
 				request.setAttribute("message", message);
 				request.getRequestDispatcher("index.jsp").forward(request, response);
 			}

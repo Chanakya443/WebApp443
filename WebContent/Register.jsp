@@ -146,6 +146,9 @@ $(function () {
                 $("#errPassword").text("Password/Confirm Password are not same");
                 return false;
             }
+            else{
+            	$("#errPassword").hide();
+            }
             return true;
         });
     });
@@ -169,7 +172,6 @@ $(function () {
 					<input type="submit" id="formSubmit" value="Sign Up"></input>							
 				 </form>				 
 		 	</div>
-		 	 <h3 style=color:red>${message}</h3>
 		</div>
 	</body>
 </html>
