@@ -131,19 +131,17 @@
         }
   </style>
 </head>
- <body>
- 
+ <body> 
   <div class="main">
      	  <p class="sign" align="center">Sign in</p>
 	     <form action="Login" method="post">
-	      <input class="un " type="text" name="username" align="center" placeholder="Username">
-	      <input class="pass" type="password" name="password" align="center" placeholder="Password">
+	      <input class="un " type="text" name="username" align="center" placeholder="Username" required>
+	      <input class="pass" type="password" name="password" align="center" placeholder="Password" required>
 	      <input class="submit" type="submit" value="Sign In" align="center"></input>     
 	    </form>
 	    <br> <br>
-	     <a class="submitt" align="center" href="Register.jsp">New User? Sign Up </a>    
+	     <a class="submitt" align="center" href="Register.jsp">New User? Sign Up</a>    
 		<h3 align="center" style=color:green>${message}</h3>
-  </div>
-		
+  </div>		
  </body>
 </html>

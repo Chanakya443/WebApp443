@@ -1,5 +1,8 @@
 package DAO;
 import java.util.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.*;
 
@@ -13,7 +16,7 @@ public class RegisterDAO {
 		{
 			System.out.println(ex.getMessage());
 		}
-	}
+	}	 
 	public static int LastId()
 	{
 		int k=0;
@@ -27,7 +30,6 @@ public class RegisterDAO {
 		    {
 		    k=rs.getInt(1);
 		    }
-		    System.out.println(k);
 		}
 		catch(Exception e)
 		{
@@ -38,7 +40,7 @@ public class RegisterDAO {
 	public static boolean ValidUser(String username,String email)
 	{
 		boolean res=true;
-		String query="select * from Client_Registration_Details where username in (?) or email in (?)";
+		String query="select * from Client_Registration_Details where username in (?) or email in (?) ";
 		try
 		{
 			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/webapp","root","root");
@@ -60,7 +62,7 @@ public class RegisterDAO {
 	public static boolean LoginAuth(String username,String password)
 	{	
 		boolean res=false;
-		String query="select * from client_registration_details where username in (?) or email in (?) and password in (?)";
+		String query="select * from client_registration_details where (username in (?) or email in (?)) and password in (?)";
 		try
 		{
 			Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/webapp","root","root");
@@ -69,13 +71,9 @@ public class RegisterDAO {
 			cs.setString(2,username);
 			cs.setString(3,password);
 			ResultSet rs=cs.executeQuery();
-			while(rs.next())
+			if(rs.next())
 			{
-				if((rs.getString("username").equals(username) || rs.getString("email").equals(username)) && (rs.getString("Password").equals(password)))
-				{
-					res=true;
-					break;
-				}
+				res=true;
 			}
 		}
 		catch(Exception e)
@@ -102,7 +100,7 @@ public class RegisterDAO {
 			cs.setString(8,pincode);
 			cs.setInt(9,age);
 			cs.setString(10,email);
-			i=cs.executeUpdate();				
+			i=cs.executeUpdate();		
 		}
 		catch(Exception e)
 		{

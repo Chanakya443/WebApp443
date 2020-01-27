@@ -41,8 +41,6 @@ public class Register extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-				
-		PrintWriter out = response.getWriter();		
 		String message="";
 		try
 		{
@@ -51,19 +49,20 @@ public class Register extends HttpServlet {
 			String email=request.getParameter("email");
 			String password=request.getParameter("password");
 			String confirmpassword=request.getParameter("confirmpassword");
-			if(password !=confirmpassword)
+			if(!password.equals(confirmpassword))
 			{
 				message="Password/Confirm Password details not same";
 				request.setAttribute("message", message);
 				request.getRequestDispatcher("Register.jsp").forward(request, response);
 			}
+			else
+		{
 			String fname=request.getParameter("fname");
 			String lname=request.getParameter("lname");
 			String adress=request.getParameter("adress");
 			String pincode=request.getParameter("pincode");
 			int age=Integer.parseInt(request.getParameter("age"));
-			boolean res=RegisterDAO.ValidUser(username,email);
-			out.println(res);
+			boolean res=RegisterDAO.ValidUser(username,email);			
 			if(res)
 			{
 				int row=RegisterDAO.InsertRegistrationDetails(id,username, email, password, confirmpassword, fname, lname, adress, pincode, age);
@@ -86,6 +85,7 @@ public class Register extends HttpServlet {
 				request.setAttribute("message", message);
 				request.getRequestDispatcher("index.jsp").forward(request, response);
 			}
+		}
 		}
 		catch(Exception e)
 		{
