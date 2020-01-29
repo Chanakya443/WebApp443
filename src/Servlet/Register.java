@@ -60,7 +60,7 @@ public class Register extends HttpServlet {
 			String fname=request.getParameter("fname");
 			String lname=request.getParameter("lname");
 			String adress=request.getParameter("adress");
-			String pincode=request.getParameter("pincode");
+			String pincode=request.getParameter("pcode");
 			int age=Integer.parseInt(request.getParameter("age"));
 			boolean res=RegisterDAO.ValidUser(username,email);			
 			if(res)

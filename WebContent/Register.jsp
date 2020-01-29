@@ -1,5 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -141,58 +139,40 @@ input[type="submit"]:active {
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
 <script src=signUpValidations></script>
-<script type="text/javascript">
-$(function () {
-        $("#formSubmit").click(function () {
-            var password = $("#password").val();
-            var confirmPassword = $("#confirmpassword").val();
-            if (password != confirmPassword) {
-                $("#errPassword").text("Password/Confirm Password are not same");
-                return false;
-            }
-            else{
-            	$("#errPassword").hide();
-            }
-            return true;
-        });
-    });
-    
-    
+<script type="text/javascript">  
 $(function() {
+    $.validator.addMethod('userId',function(value,element){
+		return this.optional(element)
+		||/\d/.test(value) && /[a-zA-Z]/i.test(value) &&/^\w+$/i.test( value );
+	},'<span style="color:red">Username should consists of Alphabets,Under scores and numbers</span>')
+    
 	$.validator.addMethod('strongPassword',function(value,element){
 		return this.optional(element)
-		||value.length>=8 && /\d/.test(value) && /[a-z]/i.test(value);
-	},'Password must consists of 8 characters long and contain atleast one upper case and one number')
-	
-	$.validator.addMethod('userId',function(value,element){
+		||value.length>=8 && /\d/.test(value) && /[a-z]/i.test(value)&&/[A-Z]/i.test(value) && /([!,%,&,@,#,$,^,*,?,_,~])/i.test(value);
+	},'<span style="color:red">Password must consists of 8 characters long and contain atleast one upper case, one lower case and one number</span>')
+    
+    
+    $.validator.addMethod('firstname',function(value,element){
 		return this.optional(element)
-		||/\d/.test(value) && /[a-zA-Z]/i.test(value);
-	},'Username should consists of Alphabets and numbers')
-	
-	$.validator.addMethod('age',function(value,element){
+		||/^[a-z ]+$/i.test(value) && value.length<=25;
+	},'<span style="color:red">firstname should consists of Alphabets and less than 25 characters long</span>')
+    
+    $.validator.addMethod('lastname',function(value,element){
 		return this.optional(element)
-		||/\d/.test(value) && (value.length>=0 && value.length<=3);
-	},'age should be less than 3 digits')
-	
-	$.validator.addMethod('ageGreater',function(value,element){
+		||/^[a-z]+$/i.test( value )&& value.length<=10;
+	},'<span style="color:red">lastname should consists of Alphabets and not more than10 characters long</span>')
+    
+    $.validator.addMethod('age',function(value,element){
 		return this.optional(element)
-		||/\d/.test(value) && (value.length>=0 && value.length<=3);
-	},'age shuold be greater than zero' )
-	
-	$.validator.addMethod('firstname',function(value,element){
-		return this.option(element)
-		|| /[a-zA-Z ]/i.test(value) && value.length<=25;		
-	},'firstname should consists of Alphabets and less than 25 characters long')
-	
-	$.validator.addMethod('pincode',function(value,element){
+		||/\d/.test(value) && (value>=0 && value<=100);	
+	},'<span style="color:red">Please enter valid age</span>')
+		
+    $.validator.addMethod('pincode',function(value,element){
 		return this.optional(element)
-		||/\d/.test(value) && (value.length>=0 && value.length<=10);
-	},'pincode should be less than than 10 digits')
-	
-	$.validator.addMethod('pincodeNonnegative',function(value,element){
-		return this.optional(element)
-		||/\d/.test(value) && (value<0);
-	},'pincode should be non negative')
+		||/\d/.test(value) && (value>=0 && value.length<=10);
+	},'<span style="color:red">Please enter valid pincode ex:600096</span>')
+    
+    
 	
 	$("#Register-form").validate({
 		rules:{
@@ -218,27 +198,33 @@ $(function() {
 			},	
 			age:{
 				required:false,
-				age:true,
-				ageGreater:true
-			}
+				age:true
+			},
+            pcode:{
+                pincode:true
+            },
+            lname:{
+                lastname:true
+            }
 			
 		},
 		messages:{
 			username:{
-				required:'Please enter UserId'
+				required:'<span style="color:red">Please enter UserId</span>'
 			},
 			email:{
-				required:'Please enter an email adress',
-				email: 'Please enter an email adress'
+				required:'<span style="color:red">Please enter an email adress</span>',
+				email: '<span style="color:red">Please enter an email adress</span>'
 			},
 			password:{
-				required:'Please enter password'
+				required:'<span style="color:red">Please enter password</span>'
 			},
 			confirmpassword:{
-				required:'Please enter confirm password'
+				required:'<span style="color:red">Please enter confirm password</span>'
+                
 			},
 			fname:{
-				required:'Please enter firstname'
+				required:'<span style="color:red">Please enter firstname</span>'
 			}
 		}
 		
@@ -257,9 +243,9 @@ $(function() {
 					<input type="password" id="confirmpassword" name="confirmpassword" placeholder="Confirm password"></input>
 					<span class="errMessage" id="errPassword"></span>
 					<input type="text" id="fname" name="fname" placeholder="First Name"></input>
-					<input type="text" name="lname" placeholder="Last Name"></input>
+					<input type="text" id="lname" name="lname" placeholder="Last Name"></input>
 					<input type="text" name="adress" placeholder="Address"></input>
-					<input type="text" id="pincode" name="pincode" placeholder="Pincode"></input>
+					<input type="text" id="pcode" name="pcode" placeholder="Pincode"></input>
 					<input type="text" name="age" placeholder="Age"></input>		
 					<input type="submit" id="formSubmit" value="Sign Up"></input>							
 				 </form>				 

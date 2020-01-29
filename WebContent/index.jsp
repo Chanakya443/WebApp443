@@ -129,14 +129,57 @@
         .main {
             border-radius: 0px;
         }
+        
   </style>
+  <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+<script src=signUpValidations></script>
+<script type="text/javascript">  </script>
+<script>
+$(function() {
+	$.validator.addMethod('userId',function(value,element){
+		return this.optional(element)
+		||/\d/.test(value) && /[a-zA-Z]/i.test(value) &&/^\w+$/i.test( value );
+	},'<span style="color:red">Alphabets,Under scores,numbers and email Id are acepted</span>')
+    
+	$.validator.addMethod('strongPassword',function(value,element){
+		return this.optional(element)
+		||value.length>=8 && /\d/.test(value) && /[a-z]/i.test(value)&&/[A-Z]/i.test(value) && /([!,%,&,@,#,$,^,*,?,_,~])/i.test(value);
+	},'<span style="color:red">Hint: min: 8 characters long,one Capital letter and Special Character are mandatory</span>')
+    
+    
+	
+	$("#login-form").validate({
+		rules:{
+			username:{
+				required:true,
+				userId:true
+			},		
+			password:{
+				required:true,	
+				strongPassword:true
+			},
+		},
+		messages:{
+			username:{
+				required:'<br><span style="color:red">Please enter UserId</span>'
+			},
+			password:{
+				required:'<br><span style="color:red">Please enter password</span>'
+			},
+		}
+		
+	});	
+});
+</script>
 </head>
  <body> 
   <div class="main">
      	  <p class="sign" align="center">Sign in</p>
-	     <form action="Login" method="post">
-	      <input class="un " type="text" name="username" align="center" placeholder="Username" required>
-	      <input class="pass" type="password" name="password" align="center" placeholder="Password" required>
+	     <form id="login-form" action="Login" method="post">
+	      <input class="un " type="text" id="username" name="username" align="center" placeholder="Username" required>
+	      <input class="pass" type="password" id="" name="password" align="center" placeholder="Password" required>
 	      <input class="submit" type="submit" value="Sign In" align="center"></input>     
 	    </form>
 	    <br> <br>
