@@ -137,6 +137,10 @@ input[type="submit"]:active {
     font-family: 'red';
 }
 </style>
+<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+<script src=signUpValidations></script>
 <script type="text/javascript">
 $(function () {
         $("#formSubmit").click(function () {
@@ -152,26 +156,118 @@ $(function () {
             return true;
         });
     });
+    
+    
+$(function() {
+	$.validator.addMethod('strongPassword',function(value,element){
+		return this.optional(element)
+		||value.length>=8 && /\d/.test(value) && /[a-z]/i.test(value);
+	},'Password must consists of 8 characters long and contain atleast one upper case and one number')
+	
+	$.validator.addMethod('userId',function(value,element){
+		return this.optional(element)
+		||/\d/.test(value) && /[a-zA-Z]/i.test(value);
+	},'Username should consists of Alphabets and numbers')
+	
+	$.validator.addMethod('age',function(value,element){
+		return this.optional(element)
+		||/\d/.test(value) && (value.length>=0 && value.length<=3);
+	},'age should be less than 3 digits')
+	
+	$.validator.addMethod('ageGreater',function(value,element){
+		return this.optional(element)
+		||/\d/.test(value) && (value.length>=0 && value.length<=3);
+	},'age shuold be greater than zero' )
+	
+	$.validator.addMethod('firstname',function(value,element){
+		return this.option(element)
+		|| /[a-zA-Z ]/i.test(value) && value.length<=25;		
+	},'firstname should consists of Alphabets and less than 25 characters long')
+	
+	$.validator.addMethod('pincode',function(value,element){
+		return this.optional(element)
+		||/\d/.test(value) && (value.length>=0 && value.length<=10);
+	},'pincode should be less than than 10 digits')
+	
+	$.validator.addMethod('pincodeNonnegative',function(value,element){
+		return this.optional(element)
+		||/\d/.test(value) && (value<0);
+	},'pincode should be non negative')
+	
+	$("#Register-form").validate({
+		rules:{
+			username:{
+				required:true,
+				userId:true
+			},
+			email:{
+				required:true,
+				email:true          
+			},
+			password:{
+				required:true,	
+				strongPassword:true
+			},
+			confirmpassword:{
+				required:true,
+				equalTo:"#password"
+			},
+			fname:{
+				required:true,
+				firstname:true
+			},	
+			age:{
+				required:false,
+				age:true,
+				ageGreater:true
+			}
+			
+		},
+		messages:{
+			username:{
+				required:'Please enter UserId'
+			},
+			email:{
+				required:'Please enter an email adress',
+				email: 'Please enter an email adress'
+			},
+			password:{
+				required:'Please enter password'
+			},
+			confirmpassword:{
+				required:'Please enter confirm password'
+			},
+			fname:{
+				required:'Please enter firstname'
+			}
+		}
+		
+	});	
+});
 </script>
 </head>
 	<body>
 	    <div id="login-box">
 		  <div class="left">
 		    <h1>Sign up</h1>
-				 <form action="Register" method="post">
-					<input type="text" name="username" placeholder="Username" pattern="[A-Za-z0-9]+" title="user name should contain Alphabets or Numbers" required></input>			
-					<input type="email" name="email" placeholder="E-mail" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[A-Za-z]+" title="ex:username@domail.com" required></input>		
-					<input type="password" id="password" name="password" placeholder="Password" required></input>			
-					<input type="password" id="confirmpassword" name="confirmpassword" placeholder="Confirm password" required></input>
+				 <form action="Register" id="Register-form" method="post">
+					<input type="text" id="username" name="username" placeholder="Username"></input>			
+					<input type="email" id="email" name="email" placeholder="E-mail"></input>		
+					<input type="password" id="password" name="password" placeholder="Password"></input>			
+					<input type="password" id="confirmpassword" name="confirmpassword" placeholder="Confirm password"></input>
 					<span class="errMessage" id="errPassword"></span>
-					<input type="text" name="fname" placeholder="First Name" required></input>
+					<input type="text" id="fname" name="fname" placeholder="First Name"></input>
 					<input type="text" name="lname" placeholder="Last Name"></input>
 					<input type="text" name="adress" placeholder="Address"></input>
-					<input type="text" name="pincode" placeholder="Pincode"></input>
+					<input type="text" id="pincode" name="pincode" placeholder="Pincode"></input>
 					<input type="text" name="age" placeholder="Age"></input>		
 					<input type="submit" id="formSubmit" value="Sign Up"></input>							
 				 </form>				 
 		 	</div>
 		</div>
+		<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
+<script src=signUpValidations></script>
 	</body>
 </html>
