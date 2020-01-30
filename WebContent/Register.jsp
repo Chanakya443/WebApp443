@@ -138,8 +138,8 @@ input[type="submit"]:active {
 <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
-<script src=signUpValidations></script>
-<script type="text/javascript">  
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbFeageXicyf0z5L1BhE1v4LLv-W3Aooc&libraries=places&callback=initAutocomplete"
+        async defer></script><script type="text/javascript">  
 $(function() {
     $.validator.addMethod('userId',function(value,element){
 		return this.optional(element)
@@ -230,6 +230,33 @@ $(function() {
 		
 	});	
 });
+
+
+var searchInput = 'adress';
+
+$(document).ready(function () {
+    var autocomplete;
+    autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
+        types: ['geocode'],
+    });
+	
+    google.maps.event.addListener(autocomplete, 'place_changed', function () {
+        var near_place = autocomplete.getPlace();
+        document.getElementById('loc_lat').value = near_place.geometry.location.lat();
+        document.getElementById('loc_long').value = near_place.geometry.location.lng();
+		
+        document.getElementById('latitude_view').innerHTML = near_place.geometry.location.lat();
+        document.getElementById('longitude_view').innerHTML = near_place.geometry.location.lng();
+    });
+});
+
+$(document).on('change', '#'+searchInput, function () {
+    document.getElementById('latitude_input').value = '';
+    document.getElementById('longitude_input').value = '';
+	
+    document.getElementById('latitude_view').innerHTML = '';
+    document.getElementById('longitude_view').innerHTML = '';
+});
 </script>
 </head>
 	<body>
@@ -244,7 +271,7 @@ $(function() {
 					<span class="errMessage" id="errPassword"></span>
 					<input type="text" id="fname" name="fname" placeholder="First Name"></input>
 					<input type="text" id="lname" name="lname" placeholder="Last Name"></input>
-					<input type="text" name="adress" placeholder="Address"></input>
+					<input type="text" name="adress" id="adress" placeholder="Address"></input>
 					<input type="text" id="pcode" name="pcode" placeholder="Pincode"></input>
 					<input type="text" name="age" placeholder="Age"></input>		
 					<input type="submit" id="formSubmit" value="Sign Up"></input>							
