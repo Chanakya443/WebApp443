@@ -83,6 +83,46 @@ public class RegisterDAO {
 		}
 		return res;
 	}
+	public static boolean ValidUserId(String username)
+	{
+		boolean res=false;
+		String query="select * from Client_Registration_Details where username in (?)";
+		try
+		{
+			PreparedStatement cs=con.prepareStatement(query);
+			cs.setString(1, username);
+			ResultSet rs=cs.executeQuery();
+			if(rs.next())
+			{
+				res=true;
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+		return res;
+	}
+	public static boolean ValidEmailId(String email)
+	{
+		boolean res=false;
+		String query="select * from Client_Registration_Details where email in (?)";
+		try
+		{
+			PreparedStatement cs=con.prepareStatement(query);
+			cs.setString(1, email);
+			ResultSet rs=cs.executeQuery();
+			if(rs.next())
+			{
+				res=true;
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+		return res;
+	}
 	public static boolean LoginAuth(String username,String password)
 	{	
 		boolean res=false;

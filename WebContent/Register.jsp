@@ -257,6 +257,39 @@ $(document).on('change', '#'+searchInput, function () {
     document.getElementById('latitude_view').innerHTML = '';
     document.getElementById('longitude_view').innerHTML = '';
 });
+
+$(document).ready(function () {
+	$('#username').change(function(){
+		var username=$('#username').val();
+		$.ajax({
+			type:'POST',
+			data:{username:username},
+			url:'Register?method=UserNameExists',
+			success:function(result){
+				alert(result);
+			}
+			
+		})
+		
+	});
+   
+    });
+$(document).ready(function () {
+	$('#email').change(function(){
+		var email=$('#email').val();
+		$.ajax({
+			type:'POST',
+			data:{email:email},
+			url:'Register?method=UserEmailExists',
+			success:function(result){
+				alert(result);
+			}
+			
+		})
+		
+	});
+   
+    });
 </script>
 </head>
 	<body>
@@ -264,7 +297,8 @@ $(document).on('change', '#'+searchInput, function () {
 		  <div class="left">
 		    <h1>Sign up</h1>
 				 <form action="Register" id="Register-form" method="post">
-					<input type="text" id="username" name="username" placeholder="Username"></input>			
+					<input type="text" id="username" name="username" placeholder="Username"></input>	
+					<span id="#result" style="color:red"></span>		
 					<input type="email" id="email" name="email" placeholder="E-mail"></input>		
 					<input type="password" id="password" name="password" placeholder="Password"></input>			
 					<input type="password" id="confirmpassword" name="confirmpassword" placeholder="Confirm password"></input>
