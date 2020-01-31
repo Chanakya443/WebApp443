@@ -2,7 +2,9 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
 <style>
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500);
 *:focus {
@@ -130,9 +132,10 @@ input[type="submit"]:active {
   text-align: center;
 }
 .errMessage{
-    font-size: 13px;
+    font-size: 15px;
     color: #ff0000;
     font-family: 'red';
+    display:inline;
 }
 </style>
 <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
@@ -220,8 +223,8 @@ $(function() {
 				required:'<span style="color:red">Please enter password</span>'
 			},
 			confirmpassword:{
-				required:'<span style="color:red">Please enter confirm password</span>'
-                
+				required:'<span style="color:red">Please enter confirm password</span>',
+				equalTo :'<span style="color:red">Password/Confirm Password are not same</span>'               
 			},
 			fname:{
 				required:'<span style="color:red">Please enter firstname</span>'
@@ -259,14 +262,15 @@ $(document).on('change', '#'+searchInput, function () {
 });
 
 $(document).ready(function () {
+	
 	$('#username').change(function(){
 		var username=$('#username').val();
 		$.ajax({
 			type:'POST',
 			data:{username:username},
-			url:'Register?method=UserNameExists',
-			success:function(result){
-				alert(result);
+			url:'UserValidations?method=UserNameExists',
+			success:function(data){
+				$("#usererr").html(data);
 			}
 			
 		})
@@ -280,9 +284,9 @@ $(document).ready(function () {
 		$.ajax({
 			type:'POST',
 			data:{email:email},
-			url:'Register?method=UserEmailExists',
+			url:'UserValidations?method=UserEmailExists',
 			success:function(result){
-				alert(result);
+				$("#userIderr").html(result);
 			}
 			
 		})
@@ -298,8 +302,9 @@ $(document).ready(function () {
 		    <h1>Sign up</h1>
 				 <form action="Register" id="Register-form" method="post">
 					<input type="text" id="username" name="username" placeholder="Username"></input>	
-					<span id="#result" style="color:red"></span>		
-					<input type="email" id="email" name="email" placeholder="E-mail"></input>		
+					<span class="errMessage"  id="usererr"></span>		
+					<input type="email" id="email" name="email" placeholder="E-mail"></input>
+					<span class="errMessage" id="userIderr"></span>		
 					<input type="password" id="password" name="password" placeholder="Password"></input>			
 					<input type="password" id="confirmpassword" name="confirmpassword" placeholder="Confirm password"></input>
 					<span class="errMessage" id="errPassword"></span>
@@ -311,10 +316,6 @@ $(document).ready(function () {
 					<input type="submit" id="formSubmit" value="Sign Up"></input>							
 				 </form>				 
 		 	</div>
-		</div>
-		<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
-<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
-<script src=signUpValidations></script>
+		</div>		
 	</body>
 </html>

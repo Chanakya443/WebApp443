@@ -129,7 +129,10 @@
         .main {
             border-radius: 0px;
         }
-        
+        .error
+        {
+        align: "center"
+        }
   </style>
   <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
@@ -141,12 +144,12 @@ $(function() {
 	$.validator.addMethod('userId',function(value,element){
 		return this.optional(element)
 		||/\d/.test(value) && /[a-zA-Z]/i.test(value) &&/^\w+$/i.test( value );
-	},'<span style="color:red">Alphabets,Under scores,numbers and email Id are acepted</span>')
+	},'<br><span style="color:red">Alphabets,Under scores,numbers and email Id are acepted</span>')
     
 	$.validator.addMethod('strongPassword',function(value,element){
 		return this.optional(element)
 		||value.length>=8 && /\d/.test(value) && /[a-z]/i.test(value)&&/[A-Z]/i.test(value) && /([!,%,&,@,#,$,^,*,?,_,~])/i.test(value);
-	},'<span style="color:red">Hint: min: 8 characters long,one Capital letter and Special Character are mandatory</span>')
+	},'<br><span style="color:red">Hint: min: 8 characters long,one Capital letter and Special Character are mandatory</span>')
     
     
 	
@@ -163,10 +166,10 @@ $(function() {
 		},
 		messages:{
 			username:{
-				required:'<br><span style="color:red">Please enter UserId</span>'
+				required:'<br><span style="color:red;margin-left: 35%;padding-top: 10px;" align="center">Please enter UserId</span>'
 			},
 			password:{
-				required:'<br><span style="color:red">Please enter password</span>'
+				required:'<br><span style="color:red;margin-left: 35%;" align="center">Please enter password</span>'
 			},
 		}
 		
