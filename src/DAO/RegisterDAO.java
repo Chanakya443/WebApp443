@@ -126,7 +126,7 @@ public class RegisterDAO {
 	public static boolean LoginAuth(String username,String password)
 	{	
 		boolean res=false;
-		String query="select * from client_registration_details where (username in (?) or email in (?)) and password in (?)";
+		String query="select * from client_registration_details where (username in (?) or email in (?)) and password = aes_encrypt(?,'key')";
 		try
 		{
 			PreparedStatement cs=con.prepareStatement(query);
@@ -149,7 +149,7 @@ public class RegisterDAO {
 			String lname, String adress, String pincode, int age)
 		{
 		int i=0;
-		String query="insert into Client_Registration_Details values(?,?,?,?,?,?,?,?,?,?)";
+		String query="insert into Client_Registration_Details values(?,?,aes_encrypt(?,'key'),aes_encrypt(?,'key'),?,?,?,?,?,?)";
 		try{
 			PreparedStatement cs=con.prepareStatement(query);
 			cs.setInt(1,id);

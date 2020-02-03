@@ -68,7 +68,7 @@ public class UserValidations extends HttpServlet {
 			{
 				response.setContentType("type/html");
 				PrintWriter out=response.getWriter();
-				out.print("UserAlready Exists");
+				out.print(username+" already available");
 				System.out.println("UserAlready Exists");
 			}
 			else
@@ -97,7 +97,7 @@ public class UserValidations extends HttpServlet {
 			{
 				response.setContentType("type/html");
 				PrintWriter out=response.getWriter();
-				out.print("UserEmail Exists");
+				out.print(email+" already exists");
 				System.out.println("UserEmail Exists");
 			}
 			else

@@ -40,30 +40,61 @@ public class Register extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		String message="";
+		String validInput="";
+		String errorMessage="";
+		String message="Please enter Valid "+errorMessage;
 		try
 		{
 			int id=RegisterDAO.LastId()+1;
-			String username=request.getParameter("username");
+			String username=request.getParameter("username");				
 			String email=request.getParameter("email");
 			String password=request.getParameter("password");
 			String confirmpassword=request.getParameter("confirmpassword");
-			if(!password.equals(confirmpassword))
-			{
-				message="Password/Confirm Password details not same";
-				request.setAttribute("message", message);
-				request.getRequestDispatcher("Register.jsp").forward(request, response);
-			}
-			else
-		    {
 			String fname=request.getParameter("fname");
 			String lname=request.getParameter("lname");
 			String adress=request.getParameter("adress");
 			String pincode=request.getParameter("pcode");
 			int age=Integer.parseInt(request.getParameter("age"));
+			if(!username.matches("[A-Za-z0-9_]"))
+			{
+				errorMessage+="UserId,";
+			}
+		   if(!email.matches("[A-Za-Z0-9]+@[A-Za-z]"))
+			{
+				errorMessage+="email,";
+			}
+		   if(!password.matches("[A-Za-z0-9!,%,&,@,#,$,^,*,?,_,~]+") || password.length()<=8 || password.length()>=25 )
+			{
+				errorMessage+="password,";
+			}
+		   if(!password.equals(confirmpassword))
+			{
+				errorMessage+="Password/Confirm Password are not same";
+			}
+		   if(!fname.matches("[A-Za-z]+") || fname.length()>=25)
+			{
+				errorMessage+="First Name";
+			}
+		   if(!lname.matches("[A-Za-z]") || fname.length()>=25)
+			{
+				errorMessage+="Last Name";
+			}
+		   if(!Integer.toString(age).matches("[0-9]*") || fname.length()>=25)
+			{
+				errorMessage+="age";
+			}
+		   if(!pincode.matches("[0-9A-Za-z]*") || pincode.length()>=25)
+			{
+				errorMessage+="pincode";
+			}
+		   if(errorMessage !=null)
+		   {
+			    message="<h3 align=\"center\" style=color:red>"+message+"</h3>";
+				request.setAttribute("message", message);
+				request.getRequestDispatcher("Register.jsp").forward(request, response);
+		   }
 			boolean res=RegisterDAO.ValidUser(username,email);			
-			if(res)
+			if(res && errorMessage !=null)
 			{
 				int row=RegisterDAO.InsertRegistrationDetails(id,username, email, password, confirmpassword, fname, lname, adress, pincode, age);
 				if(row>0)
@@ -84,9 +115,8 @@ public class Register extends HttpServlet {
 				message="<h3 align=\"center\" style=color:red>"+"User Already Exists..!!!"+"</h3>";
 				request.setAttribute("message", message);
 				request.getRequestDispatcher("index.jsp").forward(request, response);
-			}
-		}
-			
+			}			
+		
 		}
 		catch(Exception e)
 		{

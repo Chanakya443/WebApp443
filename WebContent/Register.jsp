@@ -19,7 +19,6 @@ body {
   font-family: 'Roboto', sans-serif;
   font-weight: 300;
 }
-
 #login-box {
   position: relative;
   margin: 5% auto;
@@ -29,7 +28,6 @@ body {
   border-radius: 2px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
 }
-
 .left {
   position: absolute;
   top: 0;
@@ -39,13 +37,11 @@ body {
   width: 300px;
   height: 400px;
 }
-
 h1 {
   margin: 0 0 20px 0;
   font-weight: 300;
   font-size: 28px;
 }
-
 input[type="text"],input[type="email"],
 input[type="password"] {
   display: block;
@@ -61,14 +57,12 @@ input[type="password"] {
   font-size: 15px;
   transition: 0.2s ease;
 }
-
 input[type="text"]:focus,
 input[type="password"]:focus {
   border-bottom: 2px solid #16a085;
   color: #16a085;
   transition: 0.2s ease;
 }
-
 input[type="submit"] {
   margin-top: 28px;
   width: 120px;
@@ -83,20 +77,17 @@ input[type="submit"] {
   transition: 0.1s ease;
   cursor: pointer;
 }
-
 input[type="submit"]:hover,
 input[type="submit"]:focus {
   opacity: 0.8;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
   transition: 0.1s ease;
 }
-
 input[type="submit"]:active {
   opacity: 1;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
   transition: 0.1s ease;
 }
-
 .or {
   position: absolute;
   top: 180px;
@@ -109,7 +100,6 @@ input[type="submit"]:active {
   line-height: 40px;
   text-align: center;
 }
-
 .right {
   position: absolute;
   top: 0;
@@ -123,7 +113,6 @@ input[type="submit"]:active {
   background-position: center;
   border-radius: 0 2px 2px 0;
 }
-
 .right .loginwith {
   display: block;
   margin-bottom: 40px;
@@ -132,21 +121,23 @@ input[type="submit"]:active {
   text-align: center;
 }
 .errMessage{
-    font-size: 15px;
-    color: #ff0000;
-    font-family: 'red';
+    font-size:15px;
+    color:#ff0000;
+    font-family:'red';
     display:inline;
+}
 }
 </style>
 <script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
 <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBbFeageXicyf0z5L1BhE1v4LLv-W3Aooc&libraries=places&callback=initAutocomplete"
-        async defer></script><script type="text/javascript">  
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyBbFeageXicyf0z5L1BhE1v4LLv-W3Aooc"></script>
+<script type="text/javascript">  
+//$(document).ready(function () {
 $(function() {
     $.validator.addMethod('userId',function(value,element){
 		return this.optional(element)
-		||/\d/.test(value) && /[a-zA-Z]/i.test(value) &&/^\w+$/i.test( value );
+		||/\d/.test(value) && /[a-zA-Z]/i.test(value) &&/^\w+$/i.test(value);
 	},'<span style="color:red">Username should consists of Alphabets,Under scores and numbers</span>')
     
 	$.validator.addMethod('strongPassword',function(value,element){
@@ -173,9 +164,7 @@ $(function() {
     $.validator.addMethod('pincode',function(value,element){
 		return this.optional(element)
 		||/\d/.test(value) && (value>=0 && value.length<=10);
-	},'<span style="color:red">Please enter valid pincode ex:600096</span>')
-    
-    
+	},'<span style="color:red">Please enter valid pincode ex:600096</span>')      
 	
 	$("#Register-form").validate({
 		rules:{
@@ -217,7 +206,7 @@ $(function() {
 			},
 			email:{
 				required:'<span style="color:red">Please enter an email adress</span>',
-				email: '<span style="color:red">Please enter an email adress</span>'
+				email:'<span style="color:red">Please enter an email adress</span>'
 			},
 			password:{
 				required:'<span style="color:red">Please enter password</span>'
@@ -233,67 +222,59 @@ $(function() {
 		
 	});	
 });
-
-
 var searchInput = 'adress';
-
 $(document).ready(function () {
-    var autocomplete;
-    autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
-        types: ['geocode'],
-    });
-	
-    google.maps.event.addListener(autocomplete, 'place_changed', function () {
-        var near_place = autocomplete.getPlace();
-        document.getElementById('loc_lat').value = near_place.geometry.location.lat();
-        document.getElementById('loc_long').value = near_place.geometry.location.lng();
-		
-        document.getElementById('latitude_view').innerHTML = near_place.geometry.location.lat();
-        document.getElementById('longitude_view').innerHTML = near_place.geometry.location.lng();
-    });
-});
-
-$(document).on('change', '#'+searchInput, function () {
-    document.getElementById('latitude_input').value = '';
-    document.getElementById('longitude_input').value = '';
-	
-    document.getElementById('latitude_view').innerHTML = '';
-    document.getElementById('longitude_view').innerHTML = '';
-});
-
-$(document).ready(function () {
-	
 	$('#username').change(function(){
+		console.log("inside username validation function")
 		var username=$('#username').val();
+		console.log("searching for username "+username);
 		$.ajax({
 			type:'POST',
 			data:{username:username},
 			url:'UserValidations?method=UserNameExists',
 			success:function(data){
-				$("#usererr").html(data);
-			}
-			
-		})
-		
-	});
-   
-    });
-$(document).ready(function () {
+				$('#usererr').html(data);	
+			}			
+		})		
+	});   
+	
 	$('#email').change(function(){
 		var email=$('#email').val();
 		$.ajax({
 			type:'POST',
 			data:{email:email},
 			url:'UserValidations?method=UserEmailExists',
-			success:function(result){
-				$("#userIderr").html(result);
-			}
-			
-		})
-		
+			success:function(data){
+				$('#userIderr').html(data);
+			}			
+		})		
 	});
-   
+	
+	//validations
+	//$(document).on('change', '#'+searchInput, function () {
+		$('#'+searchInput).keydown(function(){
+			console.log("Search Input is :"+searchInput);
+			 console.log("Id is"+1);
+       /*document.getElementById('latitude_input').value = '';
+    	document.getElementById('longitude_input').value = '';	  
+    	document.getElementById('latitude_view').innerHTML = '';
+    	document.getElementById('longitude_view').innerHTML = ''; */
+	});
+	 var autocomplete;
+    autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
+        types: ['geocode'],
+    });	
+     google.maps.event.addListener(autocomplete,'place_changed',function () {
+        var near_place = autocomplete.getPlace();
+        console.log("Id is"+2);
+       /*document.getElementById('loc_lat').value = near_place.geometry.location.lat();
+        document.getElementById('loc_long').value = near_place.geometry.location.lng();	 */
+        document.getElementById('latitude_view').innerHTML = near_place.geometry.location.lat();
+        document.getElementById('longitude_view').innerHTML = near_place.geometry.location.lng();
     });
+ 
+	   
+});
 </script>
 </head>
 	<body>
@@ -302,7 +283,7 @@ $(document).ready(function () {
 		    <h1>Sign up</h1>
 				 <form action="Register" id="Register-form" method="post">
 					<input type="text" id="username" name="username" placeholder="Username"></input>	
-					<span class="errMessage"  id="usererr"></span>		
+					<span class="errMessage" id="usererr"></span>		
 					<input type="email" id="email" name="email" placeholder="E-mail"></input>
 					<span class="errMessage" id="userIderr"></span>		
 					<input type="password" id="password" name="password" placeholder="Password"></input>			
@@ -314,7 +295,8 @@ $(document).ready(function () {
 					<input type="text" id="pcode" name="pcode" placeholder="Pincode"></input>
 					<input type="text" name="age" placeholder="Age"></input>		
 					<input type="submit" id="formSubmit" value="Sign Up"></input>							
-				 </form>				 
+				 </form>		
+				 $(message)		 
 		 	</div>
 		</div>		
 	</body>
