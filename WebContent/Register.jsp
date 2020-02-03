@@ -23,7 +23,7 @@ body {
   position: relative;
   margin: 5% auto;
   width: 600px;
-  height: 730px;
+  height: 930px;
   background: #FFF;
   border-radius: 2px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
@@ -138,23 +138,23 @@ $(function() {
     $.validator.addMethod('userId',function(value,element){
 		return this.optional(element)
 		||/\d/.test(value) && /[a-zA-Z]/i.test(value) &&/^\w+$/i.test(value);
-	},'<span style="color:red">Username should consists of Alphabets,Under scores and numbers</span>')
+	},'<span style="color:red">Accepted Alphabets,Under scores and numbers</span>')
     
 	$.validator.addMethod('strongPassword',function(value,element){
 		return this.optional(element)
 		||value.length>=8 && /\d/.test(value) && /[a-z]/i.test(value)&&/[A-Z]/i.test(value) && /([!,%,&,@,#,$,^,*,?,_,~])/i.test(value);
-	},'<span style="color:red">Password must consists of 8 characters long and contain atleast one upper case, one lower case and one number</span>')
+	},'<span style="color:red">Password must be 8 characters long and contain atleast one upper case, one lower case,one special Character and one number</span>')
     
     
     $.validator.addMethod('firstname',function(value,element){
 		return this.optional(element)
 		||/^[a-z ]+$/i.test(value) && value.length<=25;
-	},'<span style="color:red">firstname should consists of Alphabets and less than 25 characters long</span>')
+	},'<span style="color:red">Accepted Alphabets and less than 25 characters long</span>')
     
     $.validator.addMethod('lastname',function(value,element){
 		return this.optional(element)
 		||/^[a-z]+$/i.test( value )&& value.length<=10;
-	},'<span style="color:red">lastname should consists of Alphabets and not more than10 characters long</span>')
+	},'<span style="color:red">Accepted Alphabets and not more than10 characters long</span>')
     
     $.validator.addMethod('age',function(value,element){
 		return this.optional(element)
@@ -224,6 +224,7 @@ $(function() {
 });
 var searchInput = 'adress';
 $(document).ready(function () {
+	$("#backendErrorMessage").hide();
 	$('#username').change(function(){
 		console.log("inside username validation function")
 		var username=$('#username').val();
@@ -253,12 +254,6 @@ $(document).ready(function () {
 	//validations
 	//$(document).on('change', '#'+searchInput, function () {
 		$('#'+searchInput).keydown(function(){
-			console.log("Search Input is :"+searchInput);
-			 console.log("Id is"+1);
-       /*document.getElementById('latitude_input').value = '';
-    	document.getElementById('longitude_input').value = '';	  
-    	document.getElementById('latitude_view').innerHTML = '';
-    	document.getElementById('longitude_view').innerHTML = ''; */
 	});
 	 var autocomplete;
     autocomplete = new google.maps.places.Autocomplete((document.getElementById(searchInput)), {
@@ -266,13 +261,9 @@ $(document).ready(function () {
     });	
      google.maps.event.addListener(autocomplete,'place_changed',function () {
         var near_place = autocomplete.getPlace();
-        console.log("Id is"+2);
-       /*document.getElementById('loc_lat').value = near_place.geometry.location.lat();
-        document.getElementById('loc_long').value = near_place.geometry.location.lng();	 */
         document.getElementById('latitude_view').innerHTML = near_place.geometry.location.lat();
         document.getElementById('longitude_view').innerHTML = near_place.geometry.location.lng();
     });
- 
 	   
 });
 </script>
@@ -296,7 +287,7 @@ $(document).ready(function () {
 					<input type="text" name="age" placeholder="Age"></input>		
 					<input type="submit" id="formSubmit" value="Sign Up"></input>							
 				 </form>		
-				 $(message)		 
+				 	${message}	 
 		 	</div>
 		</div>		
 	</body>

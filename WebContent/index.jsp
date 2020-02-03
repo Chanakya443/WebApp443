@@ -126,14 +126,13 @@
 $(function() {
 	$.validator.addMethod('userId',function(value,element){
 		return this.optional(element)
-		||/\d/.test(value) && /[a-zA-Z]/i.test(value) &&/^\w+$/i.test(value);
-	},'<br><span style="color:red">Alphabets,Under scores,numbers and email Id are acepted</span>')
+		||/\d/.test(value) && /[a-zA-Z]/i.test(value) &&/^\w+$/i.test(value) ||/[a-zA-Z0-9+_.-@]/i.test(value);
+	},'<br><span style="color:red">Alphabets,Under scores,numbers and email Id are accepted</span>')
     
 	$.validator.addMethod('strongPassword',function(value,element){
 		return this.optional(element)
 		||value.length>=8 && /\d/.test(value) && /[a-z]/i.test(value)&&/[A-Z]/i.test(value) && /([!,%,&,@,#,$,^,*,?,_,~])/i.test(value);
-	},'<br><span style="color:red">Hint: min: 8 characters long,one Capital letter and Special Character are mandatory</span>')
-    
+	},'<br><span style="color:red">Hint: min: 8 characters long,one Capital letter and Special Character are mandatory</span>')  
     
 	
 	$("#login-form").validate({

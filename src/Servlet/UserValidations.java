@@ -59,7 +59,6 @@ public class UserValidations extends HttpServlet {
 		  }
 	protected void UserNameExists(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String message="";
-		System.out.println("hitting this method");
 		try
 		{
 			String username=request.getParameter("username");
@@ -88,7 +87,6 @@ public class UserValidations extends HttpServlet {
 	}
 	protected void UserEmailExists(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String message="";
-		System.out.println("hitting this method");
 		try
 		{
 			String email=request.getParameter("email");

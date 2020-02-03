@@ -1,11 +1,16 @@
 package DAO;
 import java.util.*;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+import Logger.LoggerProperties;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.*;
+import Logger.LoggerProperties;
 
 public class RegisterDAO {
 	public static Properties prop = new Properties();
@@ -14,6 +19,7 @@ public class RegisterDAO {
 	public static String url=null;
 	public static String dbuser=null;
 	public static String dbpassword=null;
+	public static LoggerProperties log;
 	public static Properties getDbProperties() throws IOException
 	{
 		try {
@@ -37,31 +43,13 @@ public class RegisterDAO {
 		    dbpassword=prop.getProperty("dbpassword");
 		    Class.forName(driverClass);	
 		    con=DriverManager.getConnection(url,dbuser,dbpassword);
+		    log=new LoggerProperties();
 		}
 		catch(Exception ex)
 		{
-			System.out.println(ex.getMessage());
+			log.logger.info(ex.getMessage());
 		}
 	}	 
-	public static int LastId()
-	{
-		int k=0;
-		String query="select * from Client_Registration_Details order by Id desc";
-		try
-		{			
-			PreparedStatement ps=con.prepareStatement(query);
-		    ResultSet rs=ps.executeQuery();
-		    if(rs.next())
-		    {
-		    k=rs.getInt(1);
-		    }
-		}
-		catch(Exception e)
-		{
-			System.out.println(e.getMessage());
-		}
-		return k;
-	}
 	public static boolean ValidUser(String username,String email)
 	{
 		boolean res=true;
@@ -79,7 +67,7 @@ public class RegisterDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println(e.getMessage());
+			log.logger.info(e.getMessage());
 		}
 		return res;
 	}
@@ -99,7 +87,7 @@ public class RegisterDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println(e.getMessage());
+			log.logger.info(e.getMessage());
 		}
 		return res;
 	}
@@ -119,19 +107,24 @@ public class RegisterDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println(e.getMessage());
+			log.logger.info(e.getMessage());
 		}
 		return res;
 	}
 	public static boolean LoginAuth(String username,String password)
 	{	
 		boolean res=false;
+		String email="";
+		if(username.matches("[A-Za-z0-9!,%,&,@,#,$,^,*,?,_,~]+[@][a-zA-Z0-9.-]+"))
+		{
+			email=username;
+		}
 		String query="select * from client_registration_details where (username in (?) or email in (?)) and password = aes_encrypt(?,'key')";
 		try
 		{
 			PreparedStatement cs=con.prepareStatement(query);
 			cs.setString(1,username);
-			cs.setString(2,username);
+			cs.setString(2,email);
 			cs.setString(3,password);
 			ResultSet rs=cs.executeQuery();
 			if(rs.next())
@@ -141,32 +134,32 @@ public class RegisterDAO {
 		}
 		catch(Exception e)
 		{
-			System.out.println(e.getMessage());
+			log.logger.info(e.getMessage());
 		}
 		return res;
 	}
-	public static int InsertRegistrationDetails(int id,String username, String email, String password, String confirmpassword, String fname,
+	public static int InsertRegistrationDetails(String username, String email, String password, String confirmpassword, String fname,
 			String lname, String adress, String pincode, int age)
 		{
+		log.logger.info("Inside InsertRegistration Details");;
 		int i=0;
-		String query="insert into Client_Registration_Details values(?,?,aes_encrypt(?,'key'),aes_encrypt(?,'key'),?,?,?,?,?,?)";
+		String query="insert into Client_Registration_Details values(?,aes_encrypt(?,'key'),aes_encrypt(?,'key'),?,?,?,?,?,?)";
 		try{
 			PreparedStatement cs=con.prepareStatement(query);
-			cs.setInt(1,id);
-			cs.setString(2,username);			
-			cs.setString(3,password );
-			cs.setString(4,confirmpassword);
-			cs.setString(5,fname);
-			cs.setString(6,lname);
-			cs.setString(7,adress);
-			cs.setString(8,pincode);
-			cs.setInt(9,age);
-			cs.setString(10,email);
+			cs.setString(1,username);			
+			cs.setString(2,password );
+			cs.setString(3,confirmpassword);
+			cs.setString(4,fname);
+			cs.setString(5,lname);
+			cs.setString(6,adress);
+			cs.setString(7,pincode);
+			cs.setInt(8,age);
+			cs.setString(9,email);
 			i=cs.executeUpdate();		
 		}
 		catch(Exception e)
 		{
-			System.out.println(e.getMessage());
+			log.logger.info(e.getMessage());
 		}
 		return i;
 	}

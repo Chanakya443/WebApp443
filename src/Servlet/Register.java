@@ -8,8 +8,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import DAO.RegisterDAO;
+import Logger.LoggerProperties;
 
 /**
  * Servlet implementation class Register
@@ -40,12 +40,12 @@ public class Register extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		LoggerProperties log=new LoggerProperties();
 		String validInput="";
 		String errorMessage="";
-		String message="Please enter Valid "+errorMessage;
+		String message="";
 		try
 		{
-			int id=RegisterDAO.LastId()+1;
 			String username=request.getParameter("username");				
 			String email=request.getParameter("email");
 			String password=request.getParameter("password");
@@ -55,53 +55,56 @@ public class Register extends HttpServlet {
 			String adress=request.getParameter("adress");
 			String pincode=request.getParameter("pcode");
 			int age=Integer.parseInt(request.getParameter("age"));
-			if(!username.matches("[A-Za-z0-9_]"))
+			if(!username.matches("[A-Za-z0-9_]+"))
 			{
-				errorMessage+="UserId,";
+				errorMessage+="UserId ";
 			}
-		   if(!email.matches("[A-Za-Z0-9]+@[A-Za-z]"))
+		   if(!email.matches("[A-Za-z0-9!,%,&,@,#,$,^,*,?,_,~]+[@][a-zA-Z0-9.-]+"))
 			{
-				errorMessage+="email,";
+				errorMessage+="email ";
 			}
 		   if(!password.matches("[A-Za-z0-9!,%,&,@,#,$,^,*,?,_,~]+") || password.length()<=8 || password.length()>=25 )
 			{
-				errorMessage+="password,";
+				errorMessage+="password ";
 			}
 		   if(!password.equals(confirmpassword))
 			{
 				errorMessage+="Password/Confirm Password are not same";
 			}
-		   if(!fname.matches("[A-Za-z]+") || fname.length()>=25)
+		   if(!fname.matches("[A-Za-z ]+") || fname.length()>=25)
 			{
-				errorMessage+="First Name";
+				errorMessage+="First Name ";
 			}
-		   if(!lname.matches("[A-Za-z]") || fname.length()>=25)
+		   if(!lname.matches("[A-Za-z]*") || lname.length()>=25)
 			{
-				errorMessage+="Last Name";
+				errorMessage+="Last Name ";
 			}
-		   if(!Integer.toString(age).matches("[0-9]*") || fname.length()>=25)
+		   if(!Integer.toString(age).matches("[0-9]*") || age<=0 || age>100)
 			{
-				errorMessage+="age";
+				errorMessage+="age ";
 			}
 		   if(!pincode.matches("[0-9A-Za-z]*") || pincode.length()>=25)
 			{
-				errorMessage+="pincode";
+				errorMessage+="pincode ";
 			}
-		   if(errorMessage !=null)
+		   if(!errorMessage.isEmpty())
 		   {
-			    message="<h3 align=\"center\" style=color:red>"+message+"</h3>";
+			    message="<h3 align=\"center\" style=color:red>"+"Please enter Valid "+errorMessage+"</h3>";
 				request.setAttribute("message", message);
 				request.getRequestDispatcher("Register.jsp").forward(request, response);
 		   }
+		   log.logger.info("Error Message is:"+message );
 			boolean res=RegisterDAO.ValidUser(username,email);			
-			if(res && errorMessage !=null)
+			if(res && errorMessage.isEmpty())
 			{
-				int row=RegisterDAO.InsertRegistrationDetails(id,username, email, password, confirmpassword, fname, lname, adress, pincode, age);
+				log.logger.info("Inside Register method");
+				int row=RegisterDAO.InsertRegistrationDetails(username, email, password, confirmpassword, fname, lname, adress, pincode, age);
 				if(row>0)
 				{
 					message="<h3 align=\"center\" style=color:green>"+"Signup successfull"+"</h3>";
 					request.setAttribute("message", message);
 					request.getRequestDispatcher("index.jsp").forward(request, response);
+					
 				}
 				else
 				{
@@ -120,7 +123,7 @@ public class Register extends HttpServlet {
 		}
 		catch(Exception e)
 		{
-			System.out.println(e.getMessage());
+			log.logger.info(e.getMessage());
 		}
 		
 	  }
