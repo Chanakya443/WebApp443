@@ -46,7 +46,7 @@ public class Register extends HttpServlet {
 		String message="";
 		try
 		{
-			String username=request.getParameter("username");				
+			String username=request.getParameter("username");	
 			String email=request.getParameter("email");
 			String password=request.getParameter("password");
 			String confirmpassword=request.getParameter("confirmpassword");
@@ -54,7 +54,7 @@ public class Register extends HttpServlet {
 			String lname=request.getParameter("lname");
 			String adress=request.getParameter("adress");
 			String pincode=request.getParameter("pcode");
-			int age=Integer.parseInt(request.getParameter("age"));
+			String age=request.getParameter("age");
 			if(!username.matches("[A-Za-z0-9_]+"))
 			{
 				errorMessage+="UserId ";
@@ -79,13 +79,17 @@ public class Register extends HttpServlet {
 			{
 				errorMessage+="Last Name ";
 			}
-		   if(!Integer.toString(age).matches("[0-9]*") || age<=0 || age>100)
-			{
-				errorMessage+="age ";
-			}
+		    if(!age.matches("[0-9]{0,2}|100")) 
+		    {  
+		     errorMessage+="age "; 		   
+		    }			 
 		   if(!pincode.matches("[0-9A-Za-z]*") || pincode.length()>=25)
 			{
 				errorMessage+="pincode ";
+			}
+		   if(!adress.matches("[A-Za-z0-9'\\.\\-\\s\\,]*") )
+			{
+				errorMessage+="password ";
 			}
 		   if(!errorMessage.isEmpty())
 		   {
@@ -93,11 +97,9 @@ public class Register extends HttpServlet {
 				request.setAttribute("message", message);
 				request.getRequestDispatcher("Register.jsp").forward(request, response);
 		   }
-		   log.logger.info("Error Message is:"+message );
 			boolean res=RegisterDAO.ValidUser(username,email);			
 			if(res && errorMessage.isEmpty())
 			{
-				log.logger.info("Inside Register method");
 				int row=RegisterDAO.InsertRegistrationDetails(username, email, password, confirmpassword, fname, lname, adress, pincode, age);
 				if(row>0)
 				{

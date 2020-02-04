@@ -3,7 +3,8 @@ package Servlet;
 import javax.servlet.http.*;  
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
-import java.io.*;  
+import java.io.*; 
+import Logger.LoggerProperties;
 
 import DAO.RegisterDAO;
 
@@ -36,9 +37,12 @@ public class Login extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String message="";
+		LoggerProperties log=new LoggerProperties();
 		String username=request.getParameter("username");
 		String password=request.getParameter("password");
-		boolean res=RegisterDAO.LoginAuth(username,password);
+		try
+		{
+		boolean res=RegisterDAO.LoginAuthentication(username,password);
 		if(res)
 			{
 				message="<h3 align=\"center\" style=color:green>"+"Login successfull"+"</h3>";
@@ -51,6 +55,9 @@ public class Login extends HttpServlet {
 				request.setAttribute("message", message);
 				request.getRequestDispatcher("index.jsp").forward(request, response);
 			}
+		}catch(Exception e) {
+			log.logger.info(e.getMessage());;
+		}
 		
 	}
 	

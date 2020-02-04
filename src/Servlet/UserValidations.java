@@ -62,7 +62,7 @@ public class UserValidations extends HttpServlet {
 		try
 		{
 			String username=request.getParameter("username");
-			boolean res=RegisterDAO.ValidUserId(username);			
+			boolean res=RegisterDAO.ChkUserIdExists(username);			
 			if(res)
 			{
 				response.setContentType("type/html");
@@ -90,7 +90,7 @@ public class UserValidations extends HttpServlet {
 		try
 		{
 			String email=request.getParameter("email");
-			boolean res=RegisterDAO.ValidEmailId(email);			
+			boolean res=RegisterDAO.ChkEmailExists(email);			
 			if(res)
 			{
 				response.setContentType("type/html");

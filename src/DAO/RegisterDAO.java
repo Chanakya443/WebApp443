@@ -71,7 +71,7 @@ public class RegisterDAO {
 		}
 		return res;
 	}
-	public static boolean ValidUserId(String username)
+	public static boolean ChkUserIdExists(String username)
 	{
 		boolean res=false;
 		String query="select * from Client_Registration_Details where username in (?)";
@@ -91,7 +91,7 @@ public class RegisterDAO {
 		}
 		return res;
 	}
-	public static boolean ValidEmailId(String email)
+	public static boolean ChkEmailExists(String email)
 	{
 		boolean res=false;
 		String query="select * from Client_Registration_Details where email in (?)";
@@ -111,7 +111,7 @@ public class RegisterDAO {
 		}
 		return res;
 	}
-	public static boolean LoginAuth(String username,String password)
+	public static boolean LoginAuthentication(String username,String password)
 	{	
 		boolean res=false;
 		String email="";
@@ -139,9 +139,8 @@ public class RegisterDAO {
 		return res;
 	}
 	public static int InsertRegistrationDetails(String username, String email, String password, String confirmpassword, String fname,
-			String lname, String adress, String pincode, int age)
+			String lname, String adress, String pincode, String age)
 		{
-		log.logger.info("Inside InsertRegistration Details");;
 		int i=0;
 		String query="insert into Client_Registration_Details values(?,aes_encrypt(?,'key'),aes_encrypt(?,'key'),?,?,?,?,?,?)";
 		try{
@@ -152,9 +151,9 @@ public class RegisterDAO {
 			cs.setString(4,fname);
 			cs.setString(5,lname);
 			cs.setString(6,adress);
-			cs.setString(7,pincode);
-			cs.setInt(8,age);
-			cs.setString(9,email);
+			cs.setString(7,pincode);			
+			cs.setString(8,email);
+			cs.setString(9,age);
 			i=cs.executeUpdate();		
 		}
 		catch(Exception e)
