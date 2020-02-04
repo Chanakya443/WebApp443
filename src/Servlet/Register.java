@@ -59,7 +59,7 @@ public class Register extends HttpServlet {
 			{
 				errorMessage+="UserId ";
 			}
-		   if(!email.matches("[A-Za-z0-9!,%,&,@,#,$,^,*,?,_,~]+[@][a-zA-Z0-9.-]+"))
+		   if(!email.matches("[A-Za-z0-9!,%,&,@,#,$,^,*,_,~]+[@][a-zA-Z0-9.-]+"))
 			{
 				errorMessage+="email ";
 			}
@@ -100,7 +100,7 @@ public class Register extends HttpServlet {
 			boolean res=RegisterDAO.ValidUser(username,email);			
 			if(res && errorMessage.isEmpty())
 			{
-				int row=RegisterDAO.InsertRegistrationDetails(username, email, password, confirmpassword, fname, lname, adress, pincode, age);
+				int row=RegisterDAO.InsertRegistrationDetails(username.trim(), email.trim(), password.trim(), confirmpassword.trim(), fname.trim(), lname.trim(), adress.trim(), pincode.trim(), age.trim());
 				if(row>0)
 				{
 					message="<h3 align=\"center\" style=color:green>"+"Signup successfull"+"</h3>";

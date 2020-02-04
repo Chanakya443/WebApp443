@@ -143,7 +143,7 @@ $(function() {
 	$.validator.addMethod('strongPassword',function(value,element){
 		return this.optional(element)
 		||value.length>=8 && /\d/.test(value) && /[a-z]/i.test(value)&&/[A-Z]/i.test(value) && /([!,%,&,@,#,$,^,*,?,_,~])/i.test(value);
-	},'<span style="color:red">Password must be 8 characters long and contain atleast one upper case, one lower case,one special Character and one number</span>')
+	},'<span style="color:red">Password must be 8 characters long and contain atleast one upper case, one lower case,one special Character(!,%,&,@,#,$,^,*,?,_,~) and one number</span>')
     
     
     $.validator.addMethod('firstname',function(value,element){
@@ -155,6 +155,11 @@ $(function() {
 		return this.optional(element)
 		||/^[a-z]+$/i.test( value )&& value.length<=10;
 	},'<span style="color:red">Accepted Alphabets and not more than10 characters long</span>')
+	
+	$.validator.addMethod('Address',function(value,element){
+		return this.optional(element)
+		||/([A-Za-z0-9'\\.\\-\\s\\,])/i.test(value);
+	},'<span style="color:red">Please enter valid address</span>')   
     
     $.validator.addMethod('age',function(value,element){
 		return this.optional(element)
@@ -197,8 +202,10 @@ $(function() {
             },
             lname:{
                 lastname:true
-            }
-			
+            },
+            adress:{
+            	Address:true
+            }			
 		},
 		messages:{
 			username:{
@@ -261,8 +268,6 @@ $(document).ready(function () {
     });	
      google.maps.event.addListener(autocomplete,'place_changed',function () {
         var near_place = autocomplete.getPlace();
-        document.getElementById('latitude_view').innerHTML = near_place.geometry.location.lat();
-        document.getElementById('longitude_view').innerHTML = near_place.geometry.location.lng();
     });
 	   
 });
