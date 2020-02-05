@@ -8,6 +8,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import Logger.LoggerProperties;
+
 
 import DAO.RegisterDAO;
 
@@ -17,6 +19,7 @@ import DAO.RegisterDAO;
 @WebServlet("/UserValidations")
 public class UserValidations extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	LoggerProperties log=new LoggerProperties();
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -53,7 +56,7 @@ public class UserValidations extends HttpServlet {
 				}
 				catch(Exception e)
 				{
-					System.out.println(e.getMessage());
+					log.logger.info(e.getMessage());
 				}
 				
 		  }
@@ -68,21 +71,18 @@ public class UserValidations extends HttpServlet {
 				response.setContentType("type/html");
 				PrintWriter out=response.getWriter();
 				out.print(username+" already available");
-				System.out.println("UserAlready Exists");
 			}
 			else
 			{
 				response.setContentType("type/html");
 				PrintWriter out=response.getWriter();
-				out.print("");
-				System.out.println("Not UserAlready Exists");
-			
+				out.print("");			
 			}
 		}
 		
 		catch(Exception e)
 		{
-			System.out.println(e.getMessage());
+			log.logger.info(e.getMessage());
 		}
 	}
 	protected void UserEmailExists(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -96,7 +96,6 @@ public class UserValidations extends HttpServlet {
 				response.setContentType("type/html");
 				PrintWriter out=response.getWriter();
 				out.print(email+" already exists");
-				System.out.println("UserEmail Exists");
 			}
 			else
 			{
@@ -108,7 +107,7 @@ public class UserValidations extends HttpServlet {
 		
 		catch(Exception e)
 		{
-			System.out.println(e.getMessage());
+			log.logger.info(e.getMessage());
 		}
 	}
 	  

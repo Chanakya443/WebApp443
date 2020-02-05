@@ -87,9 +87,9 @@ public class Register extends HttpServlet {
 			{
 				errorMessage+="pincode ";
 			}
-		   if(!adress.matches("[A-Za-z0-9'\\.\\-\\s\\,]*") )
+		   if(!adress.matches("[A-Za-z0-9\"#$'*,-.;_` ]*") )
 			{
-				errorMessage+="password ";
+				errorMessage+="address ";
 			}
 		   if(!errorMessage.isEmpty())
 		   {

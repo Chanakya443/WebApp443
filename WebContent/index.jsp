@@ -156,6 +156,18 @@ $(function() {
 		}		
 	});	
 });
+$(document).ready(function(){
+	  $("#username").click(function(){
+	    $("#errMessage").hide();
+	  });
+	  $("#password").click(function(){
+		    $("#errMessage").hide();
+		  });
+	   
+		$("#submit").click(function(){
+		    $("#errMessage").hide();
+		  });
+});
 </script>
 </head>
  <body> 
@@ -164,11 +176,11 @@ $(function() {
 	      <form id="login-form" action="Login" method="post">
 	      <input class="un" type="text" id="username" name="username" align="center" placeholder="Username" required>
 	      <input class="pass" type="password" id="password" name="password" align="center" placeholder="Password" required>
-	      <input class="submit" type="submit" value="Sign In" align="center"></input>     
+	      <input class="submit" id="submit" type="submit" value="Sign In" align="center"></input>     
 	    </form>
 	    <br> <br>
 	     <a class="submitt" align="center" href="Register.jsp">New User? Sign Up</a>    
-		 <span>${message}</span>
+		 <span id="errMessage">${message}</span>
   </div>		
  </body>
 </html>
