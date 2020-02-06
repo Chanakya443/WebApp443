@@ -200,7 +200,7 @@ $(function() {
             lname:{
                 lastname:true
             },
-            adress:{
+            address:{
             	Address:true
             }			
 		},
@@ -209,8 +209,8 @@ $(function() {
 				required:'<span style="color:red">Please enter UserId</span>'
 			},
 			email:{
-				required:'<span style="color:red">Please enter an email adress</span>',
-				email:'<span style="color:red">Please enter an email adress</span>'
+				required:'<span style="color:red">Please enter an email address</span>',
+				email:'<span style="color:red">Please enter an email address</span>'
 			},
 			password:{
 				required:'<span style="color:red">Please enter password</span>'
@@ -226,7 +226,7 @@ $(function() {
 		
 	});	
 });
-var searchInput = 'adress';
+var searchInput = 'address';
 $(document).ready(function () {
 	$("#backendErrorMessage").hide();
 	$('#username').change(function(){
@@ -284,7 +284,7 @@ $(document).ready(function () {
 					<span class="errMessage" id="errPassword"></span>
 					<input type="text" id="fname" name="fname" placeholder="First Name"></input>
 					<input type="text" id="lname" name="lname" placeholder="Last Name"></input>
-					<input type="text" name="adress" id="adress" placeholder="Address"></input>
+					<input type="text" name="address" id="address" placeholder="Address"></input>
 					<input type="text" id="pcode" name="pcode" placeholder="Pincode"></input>
 					<input type="text" name="age" placeholder="Age"></input>		
 					<input type="submit" id="formSubmit" value="Sign Up"></input>							

@@ -148,10 +148,10 @@ $(function() {
 		},
 		messages:{
 			username:{
-				required:'<br><span style="color:red;margin-left:35%;padding-top:10px;" align="center">Please enter UserId</span>'
+				required:'<br><span style="color:red;margin-left:30%;padding-top:10px;" align="center">Please enter UserId</span>'
 			},
 			password:{
-				required:'<br><span style="color:red;margin-left:35%;"align="center">Please enter password</span>'
+				required:'<br><span style="color:red;margin-left:30%;"align="center">Please enter password</span>'
 			},
 		}		
 	});	

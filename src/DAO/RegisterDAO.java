@@ -114,18 +114,23 @@ public class RegisterDAO {
 	public static boolean LoginAuthentication(String username,String password)
 	{	
 		boolean res=false;
-		String email="";
+		String userId="";
+		String query="";
 		if(username.matches("[A-Za-z0-9!,%,&,@,#,$,^,*,?,_,~]+[@][a-zA-Z0-9.-]+"))
 		{
-			email=username;
+			userId=username;
+			query="select * from client_registration_details where (email in (?)) and password = aes_encrypt(?,'key')";
 		}
-		String query="select * from client_registration_details where (username in (?) or email in (?)) and password = aes_encrypt(?,'key')";
+		else
+		{
+			userId=username;
+		    query="select * from client_registration_details where (username in (?)) and password = aes_encrypt(?,'key')";
+		}
 		try
 		{
 			PreparedStatement cs=con.prepareStatement(query);
-			cs.setString(1,username);
-			cs.setString(2,email);
-			cs.setString(3,password);
+			cs.setString(1,userId);
+			cs.setString(2,password);
 			ResultSet rs=cs.executeQuery();
 			if(rs.next())
 			{
@@ -138,22 +143,21 @@ public class RegisterDAO {
 		}
 		return res;
 	}
-	public static int InsertRegistrationDetails(String username, String email, String password, String confirmpassword, String fname,
+	public static int InsertRegistrationDetails(String username, String email, String password, String fname,
 			String lname, String adress, String pincode, String age)
 		{
 		int i=0;
-		String query="insert into Client_Registration_Details values(?,aes_encrypt(?,'key'),aes_encrypt(?,'key'),?,?,?,?,?,?)";
+		String query="insert into Client_Registration_Details values(?,aes_encrypt(?,'key'),?,?,?,?,?,?)";
 		try{
 			PreparedStatement cs=con.prepareStatement(query);
 			cs.setString(1,username);			
 			cs.setString(2,password );
-			cs.setString(3,confirmpassword);
-			cs.setString(4,fname);
-			cs.setString(5,lname);
-			cs.setString(6,adress);
-			cs.setString(7,pincode);			
-			cs.setString(8,email);
-			cs.setString(9,age);
+			cs.setString(3,fname);
+			cs.setString(4,lname);
+			cs.setString(5,adress);
+			cs.setString(6,pincode);			
+			cs.setString(7,email);
+			cs.setString(8,age);
 			i=cs.executeUpdate();		
 		}
 		catch(Exception e)

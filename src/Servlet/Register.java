@@ -52,7 +52,7 @@ public class Register extends HttpServlet {
 			String confirmpassword=request.getParameter("confirmpassword");
 			String fname=request.getParameter("fname");
 			String lname=request.getParameter("lname");
-			String adress=request.getParameter("adress");
+			String address=request.getParameter("address");
 			String pincode=request.getParameter("pcode");
 			String age=request.getParameter("age");
 			if(!username.matches("[A-Za-z0-9_]+"))
@@ -87,7 +87,7 @@ public class Register extends HttpServlet {
 			{
 				errorMessage+="pincode ";
 			}
-		   if(!adress.matches("[A-Za-z0-9\"#$'*,-.;_` ]*") )
+		   if(!address.matches("[A-Za-z0-9\"#$'*,-.;_` ]*") )
 			{
 				errorMessage+="address ";
 			}
@@ -100,7 +100,7 @@ public class Register extends HttpServlet {
 			boolean res=RegisterDAO.ValidUser(username,email);			
 			if(res && errorMessage.isEmpty())
 			{
-				int row=RegisterDAO.InsertRegistrationDetails(username.trim(), email.trim(), password.trim(), confirmpassword.trim(), fname.trim(), lname.trim(), adress.trim(), pincode.trim(), age.trim());
+				int row=RegisterDAO.InsertRegistrationDetails(username.trim(), email.trim(), password.trim(), fname.trim(), lname.trim(), address.trim(), pincode.trim(), age.trim());
 				if(row>0)
 				{
 					message="<h3 align=\"center\" style=color:green>"+"Signup successfull"+"</h3>";
